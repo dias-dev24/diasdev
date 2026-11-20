@@ -94,7 +94,58 @@ if (matchMedia('(pointer: fine)').matches) $$('.magnetic').forEach(element => {
   element.addEventListener('pointerleave', () => { element.style.transform = ''; });
 });
 
-// Motion controls for the initial presentation.
+// Write an idea into code, then bring the corresponding interface to life.
+const scene = $('.dev-scene');
+const codeLines = $$('.dev-line code');
+const lineLengths = codeLines.map(line => line.textContent.length);
+const preview = $('.dev-preview');
+const buildStatus = $('.dev-build-status');
+let typingTimer = 0;
+let lineIndex = 0;
+let characterIndex = 0;
+let holdUntil = 0;
+let sceneVisible = true;
+let built = true;
+
+function showFinishedScene() {
+  codeLines.forEach(line => { line.style.removeProperty('--typed'); line.classList.remove('is-typing'); });
+  preview.classList.add('is-built');
+  scene.classList.remove('is-building');
+  buildStatus.textContent = 'Build concluído.';
+  built = true;
+}
+function beginBuild() {
+  lineIndex = 0;
+  characterIndex = 0;
+  built = false;
+  preview.classList.remove('is-built');
+  scene.classList.add('is-building');
+  codeLines.forEach(line => { line.style.setProperty('--typed', '0'); line.classList.remove('is-typing'); });
+  buildStatus.textContent = 'Transformando ideia em código…';
+}
+function typeNext() {
+  typingTimer = 0;
+  if (paused || !sceneVisible || document.hidden) return;
+  if (built) {
+    if (Date.now() >= holdUntil) beginBuild();
+  } else {
+    const line = codeLines[lineIndex];
+    line.classList.add('is-typing');
+    characterIndex++;
+    line.style.setProperty('--typed', String(characterIndex));
+    if (characterIndex >= lineLengths[lineIndex]) {
+      line.classList.remove('is-typing');
+      lineIndex++;
+      characterIndex = 0;
+      if (lineIndex === 3) buildStatus.textContent = 'Cuidando de cada detalhe…';
+      if (lineIndex >= codeLines.length) { showFinishedScene(); holdUntil = Date.now() + 5200; }
+    }
+  }
+  typingTimer = setTimeout(typeNext, built ? 160 : 36);
+}
+function resumeTyping() {
+  if (!typingTimer && !paused && sceneVisible && !document.hidden) typingTimer = setTimeout(typeNext, 80);
+}
 function setMotion(value) {
   paused = value;
   document.body.classList.toggle('paused', paused);
@@ -102,7 +153,30 @@ function setMotion(value) {
   button.setAttribute('aria-pressed', String(paused));
   button.setAttribute('aria-label', paused ? 'Retomar animações' : 'Pausar animações');
   button.firstElementChild.textContent = paused ? '▷' : 'Ⅱ';
+  clearTimeout(typingTimer);
+  typingTimer = 0;
+  if (paused && reducedMotion.matches) showFinishedScene();
+  if (!paused) resumeTyping();
+}
+new IntersectionObserver(entries => {
+  sceneVisible = entries[0].isIntersecting;
+  if (!sceneVisible) { clearTimeout(typingTimer); typingTimer = 0; }
+  else resumeTyping();
+}).observe(scene);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) { clearTimeout(typingTimer); typingTimer = 0; }
+  else resumeTyping();
+});
+if (matchMedia('(pointer: fine)').matches) {
+  scene.addEventListener('pointermove', event => {
+    if (paused) return;
+    const box = scene.getBoundingClientRect();
+    scene.style.setProperty('--tilt-x', `${((event.clientY - box.top) / box.height - .5) * -5}deg`);
+    scene.style.setProperty('--tilt-y', `${((event.clientX - box.left) / box.width - .5) * 7}deg`);
+  });
+  scene.addEventListener('pointerleave', () => { scene.style.removeProperty('--tilt-x'); scene.style.removeProperty('--tilt-y'); });
 }
 $('.motion-button').addEventListener('click', () => setMotion(!paused));
 reducedMotion.addEventListener('change', event => setMotion(event.matches));
+holdUntil = Date.now() + 1400;
 setMotion(paused);
