@@ -3,6 +3,32 @@
 const $ = (selector, scope = document) => scope.querySelector(selector);
 const $$ = (selector, scope = document) => [...scope.querySelectorAll(selector)];
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+document.documentElement.classList.add('js');
+
+const menuButton = $('.menu-button');
+const navigation = $('.header nav');
+navigation.id = 'main-navigation';
+menuButton.setAttribute('aria-controls', navigation.id);
+const mobileContact = document.createElement('a');
+mobileContact.href = '#contato';
+mobileContact.className = 'nav-contact';
+mobileContact.textContent = 'Vamos conversar';
+navigation.append(mobileContact);
+function setMenu(open) {
+  navigation.classList.toggle('is-open', open);
+  menuButton.setAttribute('aria-expanded', String(open));
+  menuButton.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+}
+menuButton.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
+navigation.addEventListener('click', event => { if (event.target.closest('a')) setMenu(false); });
+document.addEventListener('click', event => { if (!event.target.closest('.header')) setMenu(false); });
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+    setMenu(false);
+    menuButton.focus();
+  }
+});
+matchMedia('(max-width: 760px)').addEventListener('change', () => setMenu(false));
 let paused = reducedMotion.matches;
 let toastTimer;
 function toast(message) {
