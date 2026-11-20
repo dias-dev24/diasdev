@@ -1,0 +1,11 @@
+{
+  "name": "diasdev-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Portfólio criativo de diasdev, sem dependências de runtime.",
+  "scripts": {
+    "dev": "node scripts/serve.mjs",
+    "start": "node scripts/serve.mjs",
+    "check": "node --check diasdev-portfolio/dist/app.js && node --check scripts/serve.mjs"
+  }
+}
