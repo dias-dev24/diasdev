@@ -14,6 +14,12 @@ Abra http://localhost:3000. Para verificar a sintaxe, execute `npm run check`.
 
 O site estático completo está em `diasdev-portfolio/dist`. Essa pasta pode ser publicada em qualquer hospedagem estática.
 
+## Publicar na Vercel
+
+Importe o repositório e mantenha **Root Directory** na raiz do repositório (campo vazio ou `.`). O arquivo `vercel.json` já define o projeto como estático, executa a verificação de sintaxe e publica `diasdev-portfolio/dist`, onde estão o `index.html`, o CSS e o JavaScript.
+
+Com a integração GitHub habilitada, novos commits na `main` iniciam um novo deploy. Se o projeto já foi importado, confira o **Root Directory** e acompanhe o deploy do commit mais recente. Não é necessário executar o servidor Node na hospedagem.
+
 ## Personalizar
 
 - Conteúdo, navegação e formulário: `diasdev-portfolio/dist/index.html`.
