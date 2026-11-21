@@ -9,11 +9,14 @@ const menuButton = $('.menu-button');
 const navigation = $('.header nav');
 navigation.id = 'main-navigation';
 menuButton.setAttribute('aria-controls', navigation.id);
-const mobileContact = document.createElement('a');
-mobileContact.href = '#contato';
-mobileContact.className = 'nav-contact';
-mobileContact.textContent = 'Vamos conversar';
-navigation.append(mobileContact);
+const contactLink = $('.contact-link');
+const mobileMenu = matchMedia('(max-width: 760px)');
+function positionContact() {
+  if (mobileMenu.matches) navigation.append(contactLink);
+  else menuButton.before(contactLink);
+}
+positionContact();
+mobileMenu.addEventListener('change', positionContact);
 function setMenu(open) {
   navigation.classList.toggle('is-open', open);
   menuButton.setAttribute('aria-expanded', String(open));
@@ -94,20 +97,6 @@ $$('dialog').forEach(dialog => {
   });
   dialog.addEventListener('close', () => { document.body.style.overflow = ''; });
   new MutationObserver(() => { if (dialog.open) document.body.style.overflow = 'hidden'; }).observe(dialog, { attributes: true, attributeFilter: ['open'] });
-});
-$('#open-brief').addEventListener('click', () => $('#brief-dialog').showModal());
-$('#brief-form').addEventListener('submit', event => {
-  event.preventDefault();
-  const form = new FormData(event.target);
-  const text = `BRIEFING DE PROJETO — DIASDEV\n\nNome: ${form.get('name')}\nProjeto: ${form.get('type')}\n\nA IDEIA\n${form.get('idea')}\n\nCriado em ${new Date().toLocaleDateString('pt-BR')}\nEste arquivo foi gerado localmente. Nenhum dado foi enviado.\n`;
-  const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
-  const link = document.createElement('a'); link.href = url; link.download = 'briefing-diasdev.txt'; document.body.append(link); link.click(); link.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 5000);
-  toast('Briefing preparado. Confira seus downloads.');
-});
-$('.copy-link').addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(location.href.split('#')[0]); toast('Link copiado. Compartilhe uma boa ideia.'); }
-  catch { toast('Copie o endereço do portfólio na barra do navegador.'); }
 });
 $('#year').textContent = new Date().getFullYear();
 

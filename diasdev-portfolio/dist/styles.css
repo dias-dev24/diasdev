@@ -172,3 +172,73 @@
   .project-card:hover .headphone { transform: rotate(18deg) scale(.85); }
   .project-card:hover .bank-card { transform: rotate(-13deg); }
 }
+
+/* Navigation: larger type with a restrained animated accent. */
+.header :is(nav a, .contact-link) {
+  position: relative;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 10px;
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -.02em;
+  transition: color .25s ease, transform .35s cubic-bezier(.22, 1, .36, 1);
+}
+.header :is(nav a, .contact-link)::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--acid);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .4s cubic-bezier(.22, 1, .36, 1);
+}
+.header :is(nav a, .contact-link):is(:hover, :focus-visible) { color: var(--acid); transform: translateY(-2px); }
+.header :is(nav a, .contact-link):is(:hover, :focus-visible)::after { transform: scaleX(1); transform-origin: left; }
+.header :is(nav a, .contact-link) span {
+  align-self: flex-start;
+  margin: 1px 0 0 6px;
+  font-size: 11px;
+  line-height: 1.4;
+  transition: color .25s ease;
+}
+.header :is(nav a, .contact-link):is(:hover, :focus-visible) span { color: var(--acid); }
+@keyframes nav-arrive {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .header :is(nav a, .contact-link) { animation: nav-arrive .55s cubic-bezier(.22, 1, .36, 1) backwards; }
+  .header :is(nav a, .contact-link):nth-child(2) { animation-delay: .07s; }
+  .header :is(nav a, .contact-link):nth-child(3) { animation-delay: .14s; }
+  .header :is(nav a, .contact-link):nth-child(4) { animation-delay: .21s; }
+}
+@media (max-width: 760px) {
+  .header :is(nav a, .contact-link) { font-size: 18px; }
+  .header :is(nav a, .contact-link) span { margin-top: 1px; }
+  .js .header nav.is-open a { animation-name: nav-arrive; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header :is(nav a, .contact-link), .header :is(nav a, .contact-link)::after, .header :is(nav a, .contact-link) span { animation: none; transition: none; }
+  .header :is(nav a, .contact-link):is(:hover, :focus-visible) { transform: none; }
+}
+.paused .header :is(nav a, .contact-link), .paused .header :is(nav a, .contact-link)::after, .paused .header :is(nav a, .contact-link) span { animation: none; transition: none; }
+.paused .header :is(nav a, .contact-link):is(:hover, :focus-visible) { transform: none; }
+
+/* A single WhatsApp link stays on the right on desktop and joins the mobile menu. */
+.header > .contact-link { gap: 12px; }
+.header nav a { white-space: nowrap; }
+.header .contact-link .contact-dot { align-self: center; margin: 0; }
+@media (min-width: 761px) {
+  .header { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 24px; }
+  .header > .logo { justify-self: start; }
+  .header nav { justify-self: center; align-items: center; }
+  .header > .contact-link { justify-self: end; white-space: nowrap; }
+}
+@media (max-width: 760px) {
+  .header nav .contact-link { display: inline-flex; color: var(--acid); }
+}
