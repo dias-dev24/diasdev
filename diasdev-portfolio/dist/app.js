@@ -68,7 +68,7 @@ $$('[data-filter]').forEach(button => button.addEventListener('click', () => {
 }));
 
 const projects = {
-  orbit: { name: 'Orbit Audio', subtitle: 'O som também tem uma identidade.', text: 'Um conceito de e-commerce para áudio premium. Verde orgânico, tipografia expressiva e um produto no centro da experiência. A direção visual traduz a sensação de imersão em uma interface clara e envolvente.', tags: ['E-commerce', 'Direção de arte', 'Interface responsiva'], background: '#dce4d6', color: '#12352d', logo: 'orbit®', intention: 'O desafio criativo: fazer o visitante sentir o produto antes mesmo de ouvir a primeira nota.' },
+  shai: { name: 'Shai Camisetas', subtitle: 'Sua marca em movimento.', text: 'Site para a Shai Camisetas, empresa de camisetas, polos e uniformes personalizados. A landing page apresenta fotos reais das peças em um catálogo filtrável com visualização ampliada, seletor de malhas e formulário que prepara o pedido de orçamento pelo WhatsApp.', tags: ['HTML, CSS e JavaScript', 'Design responsivo', 'Catálogo filtrável', 'Orçamento pelo WhatsApp'], background: '#edeafb', color: '#38358b', image: 'assets/shai-camisetas.jpeg', imageAlt: 'Página inicial do site Shai Camisetas', intention: 'O objetivo: apresentar as possibilidades de personalização e facilitar o contato de empresas, equipes, escolas e eventos com a Shai.', label: 'PROJETO REAL · 2026', note: 'Projeto desenvolvido para a Shai Camisetas, com fotografias reais dos produtos e experiência adaptada para celular e desktop.' },
   pulse: { name: 'Pulse Finance', subtitle: 'Finanças com uma nova energia.', text: 'Uma exploração de interface para um produto financeiro mais humano. O contraste entre lavanda e verde ácido dá personalidade à marca, enquanto a hierarquia visual mantém as informações fáceis de encontrar.', tags: ['Produto digital', 'Design de interface', 'Identidade visual'], background: '#aa8bea', color: '#25173f', logo: 'pulse.', intention: 'O desafio criativo: aproximar um assunto complexo por meio de uma experiência leve e intuitiva.' },
   forma: { name: 'Forma Studio', subtitle: 'Onde o espaço encontra a sensação.', text: 'Um conceito editorial para um estúdio de arquitetura. A composição trabalha luz, materialidade e respiro. Formas construídas com CSS criam uma cena arquitetônica sem depender de fotografias ou bibliotecas pesadas.', tags: ['Website editorial', 'Arquitetura', 'Arte com CSS'], background: '#ddd5c6', color: '#3b3529', logo: 'forma®', intention: 'O desafio criativo: usar o ritmo da página para comunicar a mesma calma de um espaço bem projetado.' }
 };
@@ -76,14 +76,19 @@ $$('[data-project]').forEach(card => card.addEventListener('click', () => {
   const project = projects[card.dataset.project];
   const content = $('#project-detail');
   content.replaceChildren();
-  const eyebrow = document.createElement('span'); eyebrow.className = 'eyebrow muted'; eyebrow.textContent = 'EXPLORAÇÃO AUTORAL · 2026';
+  const eyebrow = document.createElement('span'); eyebrow.className = 'eyebrow muted'; eyebrow.textContent = project.label || 'EXPLORAÇÃO AUTORAL · 2026';
   const title = document.createElement('h2'); title.textContent = project.name;
-  const visual = document.createElement('div'); visual.className = 'detail-visual'; visual.style.background = project.background; visual.style.color = project.color; visual.textContent = project.logo;
+  const visual = document.createElement('div'); visual.className = 'detail-visual'; visual.style.background = project.background; visual.style.color = project.color; if (project.image) {
+    visual.classList.add('detail-visual-image');
+    const image = document.createElement('img'); image.src = project.image; image.alt = project.imageAlt;
+    image.width = 1600; image.height = 845;
+    visual.append(image);
+  } else { visual.textContent = project.logo; }
   const subtitle = document.createElement('h3'); subtitle.textContent = project.subtitle;
   const description = document.createElement('p'); description.textContent = project.text; description.style.marginTop = '14px';
   const tags = document.createElement('div'); tags.className = 'detail-tags'; project.tags.forEach(tag => { const span = document.createElement('span'); span.textContent = tag; tags.append(span); });
   const intention = document.createElement('p'); intention.textContent = project.intention;
-  const note = document.createElement('p'); note.className = 'detail-note'; note.style.marginTop = '24px'; note.textContent = 'Projeto conceitual criado para demonstrar possibilidades de design. Não representa um cliente ou produto comercial lançado.';
+  const note = document.createElement('p'); note.className = 'detail-note'; note.style.marginTop = '24px'; note.textContent = project.note || 'Projeto conceitual criado para demonstrar possibilidades de design. Não representa um cliente ou produto comercial lançado.';
   content.append(eyebrow, title, visual, subtitle, description, tags, intention, note);
   $('#project-dialog').showModal();
 }));

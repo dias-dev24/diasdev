@@ -26,4 +26,4 @@ Com a integração GitHub habilitada, novos commits na `main` iniciam um novo de
 - Cores, responsividade e animações: `diasdev-portfolio/dist/styles.css`.
 - Animação do editor, filtros e detalhes dos projetos: `diasdev-portfolio/dist/app.js`.
 
-Os três projetos são conceitos demonstrativos, identificados como tais. Substitua pelos trabalhos reais e adicione seu canal de contato antes de usar o portfólio comercialmente. O briefing é baixado localmente e não envia dados. Fontes do Google Fonts possuem fallback local. O site respeita a preferência do sistema por movimento reduzido e permite pausar as animações.
+O primeiro projeto apresenta o site real da Shai Camisetas, com captura em `diasdev-portfolio/dist/assets/shai-camisetas.jpeg`. Os outros dois projetos são conceitos demonstrativos, identificados como tais. O briefing é baixado localmente e não envia dados. Fontes do Google Fonts possuem fallback local. O site respeita a preferência do sistema por movimento reduzido e permite pausar as animações.
