@@ -135,6 +135,8 @@
   .process-grid article { padding-left: 48px; }
   .process-detail { line-height: 1.8; }
   .contact { padding-top: 30px; padding-bottom: 28px; }
+  .contact-content { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 25px; text-align: center; }
+  .contact-orb { justify-self: center; margin-inline: 0; }
   .contact-bottom p { line-height: 1.7; font-size: 14px; }
   .copy-link { min-height: 44px; text-align: left; font-size: 14px; }
   footer { gap: 22px; }
@@ -152,7 +154,7 @@
 @media (max-width: 600px) {
   .contact-content { display: grid; grid-template-columns: minmax(0, 1fr); gap: 25px; padding: 32px 0; }
   .contact h2 { font-size: clamp(38px, 10.8vw, 65px); letter-spacing: -.05em; }
-  .contact-orb { justify-self: end; width: 118px; height: 118px; font-size: 14px; }
+  .contact-orb { justify-self: center; width: 118px; height: 118px; font-size: 14px; }
   .contact-orb > span { font-size: 30px; }
 }
 
