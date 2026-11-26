@@ -29,6 +29,7 @@
 @media(prefers-reduced-motion:reduce){.dev-editor{transform:rotate(-5deg)}.dev-preview.is-built{transform:rotate(6deg)}}
 
 /* Responsive layout: content determines height instead of fixed offsets. */
+main { overflow-x: clip; }
 .nav-contact { display: none; }
 .hero-copy, .about-copy, .about-visual, .project-info > div,
 .section-heading > div, .process-grid article { min-width: 0; }
