@@ -58,23 +58,16 @@ function updateProgress() {
 addEventListener('scroll', () => { if (!scrollPending) { scrollPending = true; requestAnimationFrame(updateProgress); } }, { passive: true });
 updateProgress();
 
-$$('[data-filter]').forEach(button => button.addEventListener('click', () => {
-  $$('[data-filter]').forEach(item => { item.classList.toggle('active', item === button); item.setAttribute('aria-pressed', String(item === button)); });
-  $$('.project-card').forEach(card => {
-    card.hidden = button.dataset.filter !== 'all' && card.dataset.category !== button.dataset.filter;
-    if (!card.hidden) card.classList.add('visible');
-  });
-  updateProgress();
-}));
 
 const projects = {
-  shai: { name: 'Shai Camisetas', subtitle: 'Sua marca em movimento.', text: 'Site para a Shai Camisetas, empresa de camisetas, polos e uniformes personalizados. A landing page apresenta fotos reais das peças em um catálogo filtrável com visualização ampliada, seletor de malhas e formulário que prepara o pedido de orçamento pelo WhatsApp.', tags: ['HTML, CSS e JavaScript', 'Design responsivo', 'Catálogo filtrável', 'Orçamento pelo WhatsApp'], background: '#edeafb', color: '#38358b', image: 'assets/shai-camisetas.jpeg', imageAlt: 'Página inicial do site Shai Camisetas', intention: 'O objetivo: apresentar as possibilidades de personalização e facilitar o contato de empresas, equipes, escolas e eventos com a Shai.', label: 'PROJETO REAL · 2026', note: 'Projeto desenvolvido para a Shai Camisetas, com fotografias reais dos produtos e experiência adaptada para celular e desktop.' },
-  pulse: { name: 'Pulse Finance', subtitle: 'Finanças com uma nova energia.', text: 'Uma exploração de interface para um produto financeiro mais humano. O contraste entre lavanda e verde ácido dá personalidade à marca, enquanto a hierarquia visual mantém as informações fáceis de encontrar.', tags: ['Produto digital', 'Design de interface', 'Identidade visual'], background: '#aa8bea', color: '#25173f', logo: 'pulse.', intention: 'O desafio criativo: aproximar um assunto complexo por meio de uma experiência leve e intuitiva.' },
+  shai: { siteUrl: 'https://shai-diasdev.vercel.app', githubUrl: 'https://github.com/dias-dev24/shai', name: 'Shai Camisetas', subtitle: 'Sua marca em movimento.', text: 'Site de camisetas e uniformes personalizados, com catálogo interativo, opções de malhas e orçamento pelo WhatsApp.', tags: ['HTML, CSS e JavaScript', 'Design responsivo', 'Catálogo filtrável', 'Orçamento pelo WhatsApp'], background: '#edeafb', color: '#38358b', image: 'assets/shai-camisetas.jpeg', imageAlt: 'Página inicial do site Shai Camisetas', intention: 'O objetivo: apresentar as possibilidades de personalização e facilitar o contato de empresas, equipes, escolas e eventos com a Shai.', label: 'PROJETO REAL · 2026', note: 'Projeto desenvolvido para a Shai Camisetas, com fotografias reais dos produtos e experiência adaptada para celular e desktop.' },
+  bravo: { siteUrl: 'https://bravo-barbearia-chi.vercel.app', githubUrl: 'https://github.com/dias-dev24/barbearia', name: 'Bravo Barbearia', subtitle: 'Seu estilo. Sua assinatura.', text: 'Site de barbearia com visual elegante e agendamento online. O visitante escolhe o serviço, o profissional e o melhor horário em poucos passos.', tags: ['Next.js · React', 'Design responsivo', 'Agendamento online'], background: '#1c211c', color: '#c99a65', image: 'assets/bravo-barbearia.png', imageAlt: 'Página inicial do site Bravo Barbearia', intention: 'O objetivo: valorizar a marca e facilitar a reserva de horários.', label: 'PROJETO DE PORTFÓLIO · 2026', note: 'Projeto demonstrativo com marca e reservas fictícias.' },
   forma: { name: 'Forma Studio', subtitle: 'Onde o espaço encontra a sensação.', text: 'Um conceito editorial para um estúdio de arquitetura. A composição trabalha luz, materialidade e respiro. Formas construídas com CSS criam uma cena arquitetônica sem depender de fotografias ou bibliotecas pesadas.', tags: ['Website editorial', 'Arquitetura', 'Arte com CSS'], background: '#ddd5c6', color: '#3b3529', logo: 'forma®', intention: 'O desafio criativo: usar o ritmo da página para comunicar a mesma calma de um espaço bem projetado.' }
 };
-$$('[data-project]').forEach(card => card.addEventListener('click', () => {
-  const project = projects[card.dataset.project];
+$$('.project-details, button[data-project]').forEach(button => button.addEventListener('click', () => {
+  const project = projects[button.closest('[data-project]').dataset.project];
   const content = $('#project-detail');
+  content.dataset.project = button.closest('[data-project]').dataset.project;
   content.replaceChildren();
   const eyebrow = document.createElement('span'); eyebrow.className = 'eyebrow muted'; eyebrow.textContent = project.label || 'EXPLORAÇÃO AUTORAL · 2026';
   const title = document.createElement('h2'); title.textContent = project.name;
@@ -84,12 +77,31 @@ $$('[data-project]').forEach(card => card.addEventListener('click', () => {
     image.width = 1600; image.height = 845;
     visual.append(image);
   } else { visual.textContent = project.logo; }
-  const subtitle = document.createElement('h3'); subtitle.textContent = project.subtitle;
-  const description = document.createElement('p'); description.textContent = project.text; description.style.marginTop = '14px';
+  const subtitle = document.createElement('h3'); subtitle.className = 'detail-subtitle'; subtitle.textContent = project.subtitle;
+  const description = document.createElement('p'); description.className = 'detail-description'; description.textContent = project.text;
   const tags = document.createElement('div'); tags.className = 'detail-tags'; project.tags.forEach(tag => { const span = document.createElement('span'); span.textContent = tag; tags.append(span); });
-  const intention = document.createElement('p'); intention.textContent = project.intention;
+  const highlights = document.createElement('section'); highlights.className = 'detail-highlights';
+  const highlightsTitle = document.createElement('h4'); highlightsTitle.textContent = 'Destaques';
+  highlights.append(highlightsTitle, tags);
+  const objective = document.createElement('section'); objective.className = 'detail-objective';
+  const objectiveTitle = document.createElement('h4'); objectiveTitle.textContent = 'Objetivo';
+  const intention = document.createElement('p'); intention.textContent = project.intention.replace(/^O objetivo:\s*/, '');
+  objective.append(objectiveTitle, intention);
   const note = document.createElement('p'); note.className = 'detail-note'; note.style.marginTop = '24px'; note.textContent = project.note || 'Projeto conceitual criado para demonstrar possibilidades de design. Não representa um cliente ou produto comercial lançado.';
-  content.append(eyebrow, title, visual, subtitle, description, tags, intention, note);
+  if (!project.siteUrl) content.append(eyebrow);
+  content.append(title, visual, subtitle, description, highlights, objective);
+  if (!project.siteUrl) content.append(note);
+  if (project.siteUrl && project.githubUrl) {
+    const actions = document.createElement('div'); actions.className = 'project-actions';
+    [[project.siteUrl, 'Acessar site'], [project.githubUrl, 'Ver no GitHub']].forEach(([url, label], index) => {
+      const link = document.createElement('a');
+      link.className = index === 0 ? 'button primary' : 'button project-github';
+      link.href = url; link.textContent = label;
+      link.target = '_blank'; link.rel = 'noopener noreferrer';
+      actions.append(link);
+    });
+    subtitle.before(actions);
+  }
   $('#project-dialog').showModal();
 }));
 
