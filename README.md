@@ -27,3 +27,7 @@ Com a integração GitHub habilitada, novos commits na `main` iniciam um novo de
 - Animação do editor, filtros e detalhes dos projetos: `diasdev-portfolio/dist/app.js`.
 
 O primeiro projeto apresenta o site real da Shai Camisetas, com captura em `diasdev-portfolio/dist/assets/shai-camisetas.jpeg`. O segundo projeto apresenta a Bravo Barbearia, demonstração de portfólio com agendamento online, Next.js, React, TypeScript e persistência em banco de dados, com captura em `diasdev-portfolio/dist/assets/bravo-barbearia.png`. O terceiro projeto apresenta o Flux, aplicativo de finanças pessoais em Flutter e Dart, com dashboard, movimentações, gráficos interativos e metas, com capa da apresentação em `diasdev-portfolio/dist/assets/flux-onboarding.png` e dashboard nos detalhes em `diasdev-portfolio/dist/assets/flux.jpeg`. A demonstração usa dados fictícios e mantém as alterações apenas na sessão. O briefing é baixado localmente e não envia dados. Fontes do Google Fonts possuem fallback local. O site respeita a preferência do sistema por movimento reduzido e permite pausar as animações.
+
+## Google Analytics
+
+O portfólio usa Google Analytics 4 com o ID de métricas `G-HX3VSKLZ8N`, do fluxo Portfólio diasdev (`https://diasdev-ten.vercel.app`). A tag está no `<head>` de `diasdev-portfolio/dist/index.html`. A medição otimizada é gerenciada no painel do Analytics.
