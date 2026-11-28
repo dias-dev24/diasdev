@@ -302,8 +302,8 @@ main { overflow-x: clip; }
 .project-actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; }
 .project-actions .button { justify-content: center; min-height: 48px; padding: 14px 20px; }
 .project-actions .button.primary { font-family: Arial, Helvetica, sans-serif; }
-#project-detail:is([data-project="shai"], [data-project="bravo"]) > p:not(.detail-note) { font-size: 1rem; }
-#project-detail:is([data-project="shai"], [data-project="bravo"]) .detail-tags span { font-size: .6875rem; padding: 6px 10px; }
+#project-detail:is([data-project="shai"], [data-project="bravo"], [data-project="flux"]) > p:not(.detail-note) { font-size: 1rem; }
+#project-detail:is([data-project="shai"], [data-project="bravo"], [data-project="flux"]) .detail-tags span { font-size: .6875rem; padding: 6px 10px; }
 .project-github { color: var(--ink); border: 1px solid var(--border); }
 .project-github:hover { border-color: var(--acid); }
 .project-actions .button:focus-visible { outline: 2px solid var(--acid); outline-offset: 4px; }
@@ -353,12 +353,14 @@ article.project-card { display: flex; flex-direction: column; align-self: stretc
 
 /* Hierarquia e respiro nos detalhes dos projetos. */
 .project-dialog:has(#project-detail[data-project="shai"]),
-.project-dialog:has(#project-detail[data-project="bravo"]) { scrollbar-width: none; padding-top: 20px; }
+.project-dialog:has(#project-detail[data-project="bravo"]),
+.project-dialog:has(#project-detail[data-project="flux"]) { scrollbar-width: none; padding-top: 20px; }
 .project-dialog:has(#project-detail[data-project="shai"])::-webkit-scrollbar,
-.project-dialog:has(#project-detail[data-project="bravo"])::-webkit-scrollbar { display: none; }
+.project-dialog:has(#project-detail[data-project="bravo"])::-webkit-scrollbar,
+.project-dialog:has(#project-detail[data-project="flux"])::-webkit-scrollbar { display: none; }
 #project-detail > .eyebrow { padding-right: 28px; }
 #project-detail > h2 { margin: 12px 0 26px; }
-#project-detail:is([data-project="shai"], [data-project="bravo"]) > h2 { font-size: clamp(28px, 3.2vw, 40px); }
+#project-detail:is([data-project="shai"], [data-project="bravo"], [data-project="flux"]) > h2 { font-size: clamp(28px, 3.2vw, 40px); }
 #project-detail > .detail-visual { margin: 0 0 22px; }
 #project-detail > .project-actions { margin: 0 0 30px; }
 #project-detail > .detail-subtitle { font-size: 20px; font-weight: 600; line-height: 1.4; margin-bottom: 12px; }
@@ -367,7 +369,7 @@ article.project-card { display: flex; flex-direction: column; align-self: stretc
 .detail-highlights { margin-top: 24px; }
 #project-detail :is(.detail-highlights, .detail-objective) h4 { margin: 0 0 12px; color: var(--ink); font-size: 14px; font-weight: 600; line-height: 1.5; }
 #project-detail .detail-highlights .detail-tags { margin: 0; gap: 8px; }
-#project-detail:is([data-project="shai"], [data-project="bravo"]) .detail-highlights h4 { padding-left: 11px; }
+#project-detail:is([data-project="shai"], [data-project="bravo"], [data-project="flux"]) .detail-highlights h4 { padding-left: 11px; }
 .detail-objective { margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--border); }
 #project-detail .detail-objective p { max-width: 52ch; }
 @media (max-width: 760px) {
@@ -381,3 +383,12 @@ article.project-card { display: flex; flex-direction: column; align-self: stretc
 
 .projects .project-controls { min-height: 60px; }
 @media (max-width: 760px) { .projects .project-controls { min-height: 43px; } }
+
+/* Captura do aplicativo Flux. */
+.project-details .flux-art { height: 400px; aspect-ratio: auto; background: #111; overflow: hidden; }
+.flux-art .project-image { width: 100%; height: 100%; object-fit: cover; object-position: center 55%; transform: none; }
+
+@media (max-width: 1050px) { .project-details .flux-art { height: 370px; } }
+@media (max-width: 760px) { .project-details .flux-art { height: auto; aspect-ratio: 1600 / 640; } }
+
+.project-card[data-project="flux"] .project-card-actions { flex-wrap: wrap; }
